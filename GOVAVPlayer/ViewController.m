@@ -7,14 +7,19 @@
 //
 
 #import "ViewController.h"
-#import "GOVVideoView.h"
+#import "GOVVideoController.h"
+#import "GOVTransitionAnimation.h"
 
 #define KScreenBounds ([[UIScreen mainScreen] bounds])
 #define KScreenWidth (KScreenBounds.size.width)
 #define KScreenHeight (KScreenBounds.size.height)
 
-
-@interface ViewController () <GOVVideoPlayerDelegate>
+@interface ViewController () <GOVVideoControllerDelegate>
+{
+    //必须是成员变量，防止对象被提前释放
+    GOVVideoController * _videoController;
+    
+}
 
 @property (nonatomic, assign) BOOL isHiddenStatusBar;
 
@@ -25,35 +30,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    GOVVideoView * videoView = [[GOVVideoView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenHeight/2) url:@"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=13867&editionType=normal&source=ucloud"];
+    self.view.backgroundColor = [UIColor greenColor];
     
     
-//    videoView.fullScreenBlock = ^(BOOL isFull){
-//        NSLog(@" Block 是否全屏 %d",isFull);
-//    };
-//    videoView.closePLayerBlock = ^{
-//        
-//        NSLog(@" Block 我点击了关闭按钮");
-//    };
-//    
-//    videoView.showBarBlock = ^(BOOL isShow){
-//        self.isHiddenStatusBar = !isShow;
-//        //刷新状态栏状态
-//        [self setNeedsStatusBarAppearanceUpdate];
-//        NSLog(@" Block 是否隐藏 %d",isShow);
-//    };
-//    videoView.playFinishedBlock = ^{
-//        
-//        NSLog(@" Block 播放完成");
-//        
-//    };
+    UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(100, 40, 50, 50)];
+    [button addTarget:self action:@selector(buttonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"切换" forState:UIControlStateNormal];
+    [self.view addSubview:button];
     
+    _videoController = [[GOVVideoController alloc] initWithFrame:CGRectMake(0,100, KScreenWidth, KScreenHeight/2) url:@"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=39183&editionType=normal&source=qcloud"];
+    _videoController.delegate = self;
+    _videoController.superView = self.view;
+    _videoController.presentVC = self;
+    _videoController.isCrossScreen = YES;
     
-    videoView.delegate = self;
+    [_videoController startVideoPlayer];
     
-    [self.view addSubview:videoView];
+    [self.view addSubview:_videoController.view];
     
-    //videoView.straightFull = YES;
+}
+
+- (void)buttonClicked{
+    
+    [_videoController replaceCurrentItemWithUrl:@"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=39182&editionType=normal&source=qcloud"];
     
 }
 
@@ -74,7 +73,7 @@
  */
 //设置样式
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 //设置是否隐藏
 - (BOOL)prefersStatusBarHidden {
@@ -85,24 +84,26 @@
     return UIStatusBarAnimationNone;
 }
 
-#pragma mark -- GOVVideoPlayerDelegate
+#pragma mark -- GOVVideoControllerDelegate
 
-- (void)videoPlayerPlayFinished:(GOVVideoView *)videoPlayer{
+- (void)videoPlayerPlayFinished:(GOVVideoController *)videoController{
+    
     NSLog(@" 代理 播放完成");
 }
 
-- (void)videoPlayerFullScreen:(GOVVideoView *)videoPlayer withIsFull:(BOOL)isFull{
+- (void)videoPlayerFullScreen:(GOVVideoController *)videoController withIsFull:(BOOL)isFull{
+    
     NSLog(@" 代理 是否全屏 %d",isFull);
 }
 
-- (void)videoPlayerClosePlayer:(GOVVideoView *)videoPlayer{
-
+- (void)videoPlayerClosePlayer:(GOVVideoController *)videoController{
+    
     NSLog(@" 代理 我点击了关闭按钮");
 }
 
-- (void)videoPlayerShowBar:(GOVVideoView *)videoPlayer withIsShow:(BOOL)isShow{
+- (void)videoPlayerShowBar:(GOVVideoController *)videoController withIsShowBar:(BOOL)isShow ishiddenStatusBar:(BOOL)hidden{
     
-    self.isHiddenStatusBar = !isShow;
+    self.isHiddenStatusBar = hidden;
     //刷新状态栏状态
     [self setNeedsStatusBarAppearanceUpdate];
     NSLog(@" 代理 是否隐藏 %d",isShow);
