@@ -1,5 +1,5 @@
 
-GOVVideoView是一个基于AVPlayer封装的视频播放器，支持播放/暂停、左右退拽快进、上下滑动调节音量、有缓冲进度指示条、和卡顿指示器，总效果如下：
+GOVVideoPlayer/GOVVideoController是一个基于AVPlayer封装的视频播放器，支持播放/暂停、左右退拽快进、上下滑动调节音量、有缓冲进度指示条、和卡顿指示器，总效果如下：
 
 ![11.gif](http://upload-images.jianshu.io/upload_images/1708447-deb207a25b858272.gif?imageMogr2/auto-orient/strip)
 主要代码如下：
