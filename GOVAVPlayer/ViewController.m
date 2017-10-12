@@ -30,12 +30,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor greenColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     
-    UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(100, 40, 50, 50)];
+    UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(100, 40, 100, 50)];
     [button addTarget:self action:@selector(buttonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"切换" forState:UIControlStateNormal];
+    [button setTitle:@"切换视频源" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:button];
     
     _videoController = [[GOVVideoController alloc] initWithFrame:CGRectMake(0,100, KScreenWidth, KScreenHeight/2) url:@"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=39183&editionType=normal&source=qcloud"];
@@ -53,6 +54,7 @@
 - (void)buttonClicked{
     
     [_videoController replaceCurrentItemWithUrl:@"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=39182&editionType=normal&source=qcloud"];
+    _videoController.isCrossScreen = NO;
     
 }
 

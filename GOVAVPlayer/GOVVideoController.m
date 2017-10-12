@@ -732,6 +732,7 @@
         //刷新状态栏状态
         [self setNeedsStatusBarAppearanceUpdate];
         
+        [self.view removeFromSuperview];
         [self dismissViewControllerAnimated:YES completion:^{
             
         }];
@@ -740,7 +741,7 @@
         
         [self.view removeFromSuperview];
     }
-    
+    _isFull = NO;
     _isClose = 1;
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
     [self.avPlayer pause];
