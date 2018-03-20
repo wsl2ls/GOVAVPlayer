@@ -1,7 +1,14 @@
+> [GOVVideoPlayer/GOVVideoController](https://github.com/wslcmk/GOVAVPlayer.git) 是一个基于AVPlayer封装的视频播放器，支持播放/暂停、左右退拽快进、上下滑动调节音量、自动手动全屏、全屏时横屏Or竖屏、有缓冲进度指示条、卡顿指示器、切换视频源。
+***
+更新于2017/8/10，增加了GOVVideoController
+> GOVVideoPlayer是在继承于UIView的基础上封装的视频View;
+GOVVideoController是在继承于UIViewController的基础上封装的视频视图控制器,用起来更方便简洁，解耦性强，几行代码就足够了。
+两者最大的不同是在全屏和取消全屏的处理上面：前者是一个视图View，可以直接加在父视图上面，全屏时是加在 [UIApplication sharedApplication].keyWindow上的，而后者，小屏时是取GOVVideoController的View加在父视图上，全屏和取消全屏时是采用present和dismiss模态化转场的方法 。 
 
-GOVVideoPlayer/GOVVideoController是一个基于AVPlayer封装的视频播放器，支持播放/暂停、左右退拽快进、上下滑动调节音量、有缓冲进度指示条、和卡顿指示器，总效果如下：
+总效果如下：
 
-![11.gif](http://upload-images.jianshu.io/upload_images/1708447-deb207a25b858272.gif?imageMogr2/auto-orient/strip)
+
+![总效果.gif](http://upload-images.jianshu.io/upload_images/1708447-0afe12fc69338f1f.gif?imageMogr2/auto-orient/strip)
 主要代码如下：
 ```
 //监测屏幕旋转
@@ -124,3 +131,6 @@ GOVVideoPlayer/GOVVideoController是一个基于AVPlayer封装的视频播放器
     return UIStatusBarAnimationNone;
 }
 ```
+
+
+![亲，赞一下呗❤️么么哒.jpg](http://upload-images.jianshu.io/upload_images/1708447-60ad604d2d12e1da.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
